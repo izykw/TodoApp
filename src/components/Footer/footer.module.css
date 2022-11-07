@@ -1,0 +1,21 @@
+.footer {
+	display: flex;
+	justify-content: space-between;
+	padding: 0.5rem;
+}
+
+.footer__span {
+	font-size: 1.1rem;
+	padding: 0.2rem;
+}
+
+.footer__button_clear_completed {
+	background-color: transparent;
+	border: none;
+	font-size: 1.1rem;
+	cursor: pointer;
+}
+
+.footer__button_clear_completed:hover {
+	text-decoration-line: underline;
+}

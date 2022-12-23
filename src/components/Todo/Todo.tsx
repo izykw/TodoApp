@@ -2,10 +2,25 @@ import React from "react";
 import styled from "styled-components";
 import {reactSvgComponentToMarkupString} from "../../services/services";
 import {Colors} from "../../services/enums";
-import {BsCheckLg} from 'react-icons/bs'
+import {BsCheckLg, BsTrash} from 'react-icons/bs'
+
+const TodoWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	
+  & > svg {
+    margin-left: 5px;
+	  margin-top: 15px;
+  }
+
+  & > svg:hover {
+    fill: ${Colors.MAIN_COLOR};
+  }
+`
 
 const TodoLabel = styled.label`
 	display: flex;
+	width: 100%;
   margin-top: 15px;
 	
   /* для элемента input c type="checkbox" */
@@ -16,6 +31,7 @@ const TodoLabel = styled.label`
   }
 	
 	& > p {
+		width: 100%;
 		line-height: 1.4;
 		font-weight: 600;
 	}
@@ -80,20 +96,28 @@ const TodoLabel = styled.label`
 	
   /* стили для чекбокса, находящегося в состоянии disabled */
 
-  & > input:disabled + span::before {
+  & > input:disabled + .custom-checkbox::before {
     background-color: rgba(0, 0, 0, 0.25);
+  }
+
+ 	& > input:checked + .custom-checkbox + p {
+	  opacity: 50%;
+	  text-decoration: line-through;
   }
 `
 
 export default function Todo() {
 	return (
-		<TodoLabel>
-			<input type="checkbox"/>
-			<span className="custom-checkbox"></span>
-			<p>
-				Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-				Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-			</p>
-		</TodoLabel>
+		<TodoWrapper>
+			<TodoLabel>
+				<input type="checkbox"/>
+				<span className="custom-checkbox"></span>
+				<p className="a">
+					Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+					Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+				</p>
+			</TodoLabel>
+			<BsTrash size="24"/>
+		</TodoWrapper>
 	)
 }

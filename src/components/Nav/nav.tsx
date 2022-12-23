@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {AiOutlineUnorderedList} from "react-icons/ai";
-import {BsCalendarCheck} from 'react-icons/bs';
+import {BsCalendarCheck, BsThreeDots} from 'react-icons/bs';
 import {Colors} from "../../services/enums";
 
 const NavComponent = styled.div`
@@ -12,32 +12,32 @@ const NavComponent = styled.div`
 `
 
 const NavButton = styled.button`
-  width: 50%;
+  width: 33.333333%;
   height: 70px;
 
-  border: none;
-
+  border: solid 1px rgba(0, 0, 0, 0.3);
+	border-bottom: 0;
   background-color: transparent;
   cursor: pointer;
-
-  &.non-active {
-    border-top: solid 1px rgba(0, 0, 0, 0.5);
-    opacity: 30%;
-
+  opacity: 30%;
+	
+	transition: border-color 150ms ease-in-out, opacity 150ms ease-in-out;
+	
+  &.active {
+    opacity: 100%;
+		border-color: transparent;
     & > svg {
-      fill: #6b6666;
+      fill: ${Colors.MAIN_COLOR};
     }
   }
-
-  &:first-child.non-active {
-    border-right: solid 1px rgba(0, 0, 0, 0.5);
-    border-bottom-left-radius: 20px;
-  }
-
-  &:last-child.non-active {
-    border-left: solid 1px rgba(0, 0, 0, 0.5);
-    border-bottom-right-radius: 20px;
-  }
+	
+	&:first-child {
+		border-left: 0;
+	}
+	
+	&:last-child {
+		border-right: 0;
+	}
 	
   @media (max-width: 600px) {
     height: 50px;
@@ -52,11 +52,14 @@ const NavButton = styled.button`
 export default function Nav() {
 	return (
 		<NavComponent>
-			<NavButton>
-				<AiOutlineUnorderedList size="24" fill={Colors.MAIN_COLOR}/>
+			<NavButton className="active">
+				<AiOutlineUnorderedList size="24"/>
 			</NavButton>
-			<NavButton className="non-active">
-				<BsCalendarCheck size="24" fill={Colors.MAIN_COLOR}/>
+			<NavButton>
+				<BsThreeDots size="24"/>
+			</NavButton>
+			<NavButton>
+				<BsCalendarCheck size="24"/>
 			</NavButton>
 		</NavComponent>
 	)

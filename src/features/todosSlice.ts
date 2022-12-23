@@ -13,11 +13,13 @@ const todosSlice = createSlice({
 	initialState,
 	reducers: {
 		addTodo: (state, action: PayloadAction<{ todo: string }>) => {
+			const dateNow = new Date().toString();
+			const dateWithoutTimezone = dateNow.slice(0, dateNow.lastIndexOf('GMT'));
 			state.todos.push(
 				{
 					id: nanoid(),
 					todo: action.payload.todo,
-					createdDate: new Date(),
+					createdDate: dateWithoutTimezone,
 					isCompleted: false,
 				});
 		},
@@ -27,19 +29,13 @@ const todosSlice = createSlice({
 				displayedTodos: state.displayedTodos,
 			};
 		},
-		removeCompletedTodos: (state) => {
-			return {
-				todos: state.todos.filter(item => !item.isCompleted),
-				displayedTodos: state.displayedTodos,
-			}
-		},
-		setTodoStatus: (state, action: PayloadAction<{ id: string }>) => {
+		changeTodoStatus: (state, action: PayloadAction<{ id: string }>) => {
 			const todo = state.todos.find((todo) => todo.id === action.payload.id);
 			if (todo) {
 				todo.isCompleted = !todo.isCompleted;
 			}
 		},
-		setDisplayedTodos: (state, action: PayloadAction<DisplayedTodoStatus>) => {
+		changeDisplayedTodos: (state, action: PayloadAction<DisplayedTodoStatus>) => {
 			state.displayedTodos = action.payload;
 		}
 	},
@@ -48,9 +44,8 @@ const todosSlice = createSlice({
 export const {
 	addTodo,
 	removeTodo,
-	removeCompletedTodos,
-	setTodoStatus,
-	setDisplayedTodos,
+	changeTodoStatus,
+	changeDisplayedTodos,
 } = todosSlice.actions;
 
 export const selectTodos = (state: RootState) => {
@@ -67,8 +62,6 @@ export const selectTodos = (state: RootState) => {
 	}
 };
 
-export const selectActiveTodosLength = (state: RootState) => (state.todo.todos.filter(todo => !todo.isCompleted).length);
-export const selectCompletedTodosLength = (state: RootState) => (state.todo.todos.filter(todo => todo.isCompleted).length)
 export const selectDisplayedTodosStatus = (state: RootState) => state.todo.displayedTodos;
 
 export default todosSlice.reducer;

@@ -1,6 +1,7 @@
-import React, {HTMLInputTypeAttribute} from "react";
+import React, {useState} from "react";
+import {addTodo} from "../../features/todosSlice";
 import styled from "styled-components";
-import {Colors} from "../../services/enums";
+import {useAppDispatch} from "../../store/hooks";
 
 const InputWrapper = styled.div`
   padding: 0 50px;
@@ -13,7 +14,7 @@ const InputWrapper = styled.div`
   }
 `
 
-const InputComponent = styled.input.attrs<HTMLInputTypeAttribute>({placeholder: 'Write your todos here'})`
+const InputComponent = styled.input.attrs<React.HTMLInputTypeAttribute>({placeholder: 'Write your todos here'})`
   width: 100%;
 
   border: 0;
@@ -32,15 +33,25 @@ const InputComponent = styled.input.attrs<HTMLInputTypeAttribute>({placeholder: 
 
   &:focus {
     outline: 0;
-    border-bottom-color: ${Colors.MAIN_COLOR};
+    border-bottom-color: #ca79aa;
     box-shadow: 0 3px 6px 4px rgba(202, 121, 170, 0.2);
   }
 `
 
 export default function Input() {
+	const [userInput, setUserInput] = useState('');
+	const dispatch = useAppDispatch();
+
+	const addTodoToStore = (e: React.KeyboardEvent): void => {
+		if(e.key !== 'Enter' || userInput.trim() === '') return;
+
+		dispatch(addTodo({todo: userInput}));
+		setUserInput('');
+	}
+
 	return (
 		<InputWrapper>
-			<InputComponent/>
+			<InputComponent onKeyDown={addTodoToStore} value={userInput} onChange={(e) => setUserInput(e.target.value)}/>
 		</InputWrapper>
 	)
 }

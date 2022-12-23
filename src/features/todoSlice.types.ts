@@ -1,7 +1,7 @@
 export interface ITodo {
 	id: string,
 	todo: string,
-	createdDate: Date,
+	createdDate: string,
 	isCompleted: boolean,
 }
 

@@ -1,40 +1,46 @@
 import React from "react";
 import styled from "styled-components";
-import {reactSvgComponentToMarkupString} from "../../services/services";
-import {Colors} from "../../services/enums";
+import {useAppDispatch} from "../../store/hooks";
+import {changeTodoStatus, removeTodo} from "../../features/todosSlice";
+
+import {reactSvgComponentToMarkupString} from "./todo.services";
 import {BsCheckLg, BsTrash} from 'react-icons/bs'
+import {ITodo} from "../../features/todoSlice.types";
+import {getSvg} from "./todo.services";
+
 
 const TodoWrapper = styled.div`
-	display: flex;
-	align-items: center;
-	
+  display: flex;
+  align-items: center;
+
   & > svg {
     margin-left: 5px;
-	  margin-top: 15px;
+    margin-top: 15px;
   }
 
   & > svg:hover {
-    fill: ${Colors.MAIN_COLOR};
+    fill: #ca79aa;
   }
 `
 
 const TodoLabel = styled.label`
-	display: flex;
-	width: 100%;
+  display: flex;
+  width: 100%;
   margin-top: 15px;
-	
+
   /* для элемента input c type="checkbox" */
+
   & > input {
     position: absolute;
     z-index: -9;
     opacity: 0;
   }
-	
-	& > p {
-		width: 100%;
-		line-height: 1.4;
-		font-weight: 600;
-	}
+
+  & > p {
+    width: 100%;
+    line-height: 1.4;
+    font-weight: 500;
+  }
 
   /* для элемента label, связанного с .custom-checkbox */
 
@@ -75,7 +81,8 @@ const TodoLabel = styled.label`
 
   /* стили для чекбокса, находящегося в фокусе */
 
-  & > input:focus + .custom-checkbox::before {}
+  & > input:focus + .custom-checkbox::before {
+  }
 
   /* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
 
@@ -86,38 +93,59 @@ const TodoLabel = styled.label`
   /* стили для чекбокса, находящегося в состоянии checked */
 
   & > input:checked + .custom-checkbox::before {
-    background-image: url(${reactSvgComponentToMarkupString(BsCheckLg, {fill: Colors.MAIN_COLOR, width: ''})});
+    background-image: url(${reactSvgComponentToMarkupString(BsCheckLg, {fill: '#ca79aa', width: ''})});
   }
 
   & > input:checked + .custom-checkbox:hover::before {
     border-color: rgba(118, 116, 116, 0.5);
     background-color: rgba(118, 116, 116, 0.1);
   }
-	
+
   /* стили для чекбокса, находящегося в состоянии disabled */
 
   & > input:disabled + .custom-checkbox::before {
     background-color: rgba(0, 0, 0, 0.25);
   }
 
- 	& > input:checked + .custom-checkbox + p {
-	  opacity: 50%;
-	  text-decoration: line-through;
+  & > input:checked + .custom-checkbox + p {
+    opacity: 50%;
+    text-decoration: line-through;
   }
 `
 
-export default function Todo() {
+const TodoCreatedDate = styled.span`
+	color: #ca79aa;
+`
+
+export default function Todo({id, todo, createdDate, isCompleted}: ITodo) {
+	const dispatch = useAppDispatch();
+
+	const changeTodoStatusInStore = (e: React.ChangeEvent<HTMLInputElement>) => {
+		dispatch(changeTodoStatus({id: e.target.id}));
+	}
+
+	const removeTodoFromStore = (e: React.MouseEvent) => {
+		const target = getSvg(e.target as HTMLElement);
+		if(!target) {
+			return;
+		}
+		dispatch(removeTodo({id: target.id}))
+	}
+
 	return (
 		<TodoWrapper>
 			<TodoLabel>
-				<input type="checkbox"/>
+				<input id={id} onChange={changeTodoStatusInStore} defaultChecked={isCompleted} type="checkbox"/>
 				<span className="custom-checkbox"></span>
-				<p className="a">
-					Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-					Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+				<p>
+					{todo}
+					<br/>
+					<TodoCreatedDate>
+						{`Created: ${createdDate}.`}
+					</TodoCreatedDate>
 				</p>
 			</TodoLabel>
-			<BsTrash size="24"/>
+			<BsTrash onClick={removeTodoFromStore} size="24" id={id}/>
 		</TodoWrapper>
 	)
 }

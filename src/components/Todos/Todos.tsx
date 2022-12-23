@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Todo from "../Todo/Todo";
+import {useAppSelector} from "../../store/hooks";
+import {selectTodos} from "../../features/todosSlice";
 
 const TodosComponent = styled.div`
   padding: 0 50px;
@@ -20,10 +22,19 @@ const TodosComponent = styled.div`
 `
 
 export default function Todos() {
+	const todos = useAppSelector(selectTodos);
+
+	const mapTodos = (): Array<JSX.Element> => {
+		return todos.map(({id, todo, createdDate, isCompleted }) => {
+			return <Todo key={id} id={id} todo={todo} createdDate={createdDate} isCompleted={isCompleted}/>
+		})
+	}
+
 	return (
 		<TodosComponent>
-			<Todo/>
-			<Todo/>
+			{
+				mapTodos()
+			}
 		</TodosComponent>
 	)
 }

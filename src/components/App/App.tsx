@@ -1,5 +1,5 @@
 import React from 'react';
-import Nav from "../Nav/nav";
+import Nav from "../Nav/Nav";
 import Todos from "../Todos/Todos";
 import styled from "styled-components";
 import Input from "../Input/Input";

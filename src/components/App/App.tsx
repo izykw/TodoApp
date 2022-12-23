@@ -1,20 +1,46 @@
 import React from 'react';
-import Header from '../Header/Header';
-import CardList from '../CardList/CardList';
-import Footer from '../Footer/Footer';
-import styles from './App.module.css';
+import Nav from "../Nav/nav";
+import Todos from "../Todos/Todos";
+import styled from "styled-components";
+import Input from "../Input/Input";
 
-const { app, app__inner } = styles;
+const AppComponent = styled.div `
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	color: #333;
+`
+
+const Container = styled.div `
+	position: relative;
+	
+	width: 600px;
+	height: 800px;
+	background-color: #fff;
+	border-radius: 20px;
+	
+	@media (max-width: 992px) {
+    width: 450px;
+    height: 650px;
+    border-radius: 13px;
+	}
+
+  @media (max-width: 600px) {
+    width: 350px;
+    height: 500px;
+  }
+`
 
 function App() {
 	return (
-		<div className={app}>
-			<div className={app__inner}>
-				<Header/>
-				<CardList/>
-				<Footer/>
-			</div>
-		</div>
+		<AppComponent>
+			<Container>
+				<Input/>
+				<Todos/>
+				<Nav/>
+			</Container>
+		</AppComponent>
 	);
 }
 

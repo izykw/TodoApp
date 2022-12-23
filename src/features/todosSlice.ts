@@ -17,6 +17,7 @@ const todosSlice = createSlice({
 				{
 					id: nanoid(),
 					todo: action.payload.todo,
+					createdDate: new Date(),
 					isCompleted: false,
 				});
 		},
@@ -31,9 +32,6 @@ const todosSlice = createSlice({
 				todos: state.todos.filter(item => !item.isCompleted),
 				displayedTodos: state.displayedTodos,
 			}
-		},
-		editTodo: (state, action: PayloadAction<{ id: string }>) => {
-
 		},
 		setTodoStatus: (state, action: PayloadAction<{ id: string }>) => {
 			const todo = state.todos.find((todo) => todo.id === action.payload.id);
@@ -51,7 +49,6 @@ export const {
 	addTodo,
 	removeTodo,
 	removeCompletedTodos,
-	editTodo,
 	setTodoStatus,
 	setDisplayedTodos,
 } = todosSlice.actions;
@@ -69,6 +66,7 @@ export const selectTodos = (state: RootState) => {
 		}
 	}
 };
+
 export const selectActiveTodosLength = (state: RootState) => (state.todo.todos.filter(todo => !todo.isCompleted).length);
 export const selectCompletedTodosLength = (state: RootState) => (state.todo.todos.filter(todo => todo.isCompleted).length)
 export const selectDisplayedTodosStatus = (state: RootState) => state.todo.displayedTodos;

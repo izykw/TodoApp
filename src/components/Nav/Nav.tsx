@@ -53,18 +53,17 @@ const NavButton = styled.button`
   }
 `
 
-export default function Nav() {
+export default function Nav(): JSX.Element {
 	const todoStatus = useAppSelector(selectDisplayedTodosStatus);
 	const dispatch = useAppDispatch();
 
 	const onClickButton = (e: React.MouseEvent) => {
 		const button = getButton(e.target as HTMLElement);
-		if (!button) {
-			return;
-		}
 
-		const status = button.id as DisplayedTodoStatus;
-		dispatch(changeDisplayedTodos(status));
+		if (button) {
+			const status = button.id as DisplayedTodoStatus;
+			dispatch(changeDisplayedTodos(status));
+		}
 	}
 
 	const isAllDisplayed = todoStatus === 'all';

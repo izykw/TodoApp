@@ -21,12 +21,12 @@ const TodosComponent = styled.div`
   }
 `
 
-export default function Todos() {
+export default function Todos(): JSX.Element {
 	const todos = useAppSelector(selectTodos);
 
 	const mapTodos = (): Array<JSX.Element> => {
-		return todos.map(({id, todo, createdDate, isCompleted }) => {
-			return <Todo key={id} id={id} todo={todo} createdDate={createdDate} isCompleted={isCompleted}/>
+		return todos.map((todo) => {
+			return <Todo key={todo.id} {...todo}/>
 		})
 	}
 

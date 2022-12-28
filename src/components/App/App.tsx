@@ -32,7 +32,7 @@ const Container = styled.div `
   }
 `
 
-function App() {
+function App(): JSX.Element {
 	return (
 		<AppComponent>
 			<Container>

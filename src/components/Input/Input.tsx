@@ -38,7 +38,7 @@ const InputComponent = styled.input.attrs<React.HTMLInputTypeAttribute>({placeho
   }
 `
 
-export default function Input() {
+export default function Input(): JSX.Element {
 	const [userInput, setUserInput] = useState('');
 	const dispatch = useAppDispatch();
 

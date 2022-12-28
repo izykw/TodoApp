@@ -117,7 +117,7 @@ const TodoCreatedDate = styled.span`
 	color: #ca79aa;
 `
 
-export default function Todo({id, todo, createdDate, isCompleted}: ITodo) {
+export default function Todo({id, todo, createdDate, isCompleted}: ITodo): JSX.Element {
 	const dispatch = useAppDispatch();
 
 	const changeTodoStatusInStore = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,10 +126,9 @@ export default function Todo({id, todo, createdDate, isCompleted}: ITodo) {
 
 	const removeTodoFromStore = (e: React.MouseEvent) => {
 		const target = getSvg(e.target as HTMLElement);
-		if(!target) {
-			return;
+		if(target) {
+			dispatch(removeTodo({id: target.id}))
 		}
-		dispatch(removeTodo({id: target.id}))
 	}
 
 	return (

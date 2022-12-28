@@ -4,7 +4,7 @@ Regular Todo app
 # Technology stack
 <ul>
 <li>TypeScript</li>
-<li>SCSS</li>
+<li>Styled Components</li>
 <li>React</li>
 <li>Redux Toolkit</li>
 </ul>
